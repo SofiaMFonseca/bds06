@@ -15,7 +15,6 @@ import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.entities.User;
 import com.devsuperior.movieflix.repositories.MovieRepository;
 import com.devsuperior.movieflix.repositories.ReviewRepository;
-import com.devsuperior.movieflix.services.exceptions.ForbiddenException;
 import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -47,7 +46,6 @@ public class ReviewService {
 		
 		User user = authService.authenticated();
 		
-		try {
 			Review entity = new Review();
 			entity.setMovie(movieRepository.getOne(dto.getMovieId()));
 			entity.setUser(user);
@@ -55,10 +53,6 @@ public class ReviewService {
 			
 			repository.save(entity);
 			
-			return new ReviewDTO(entity);
-		}
-		catch (ForbiddenException e) {
-			throw new ForbiddenException("Visitors not allowed");
-		}	
+			return new ReviewDTO(entity);		
 	}
 }
